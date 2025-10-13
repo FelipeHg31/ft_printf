@@ -6,7 +6,7 @@
 /*   By: juan-her <juan-her@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 04:29:46 by juan-her          #+#    #+#             */
-/*   Updated: 2025/10/13 01:43:54 by juan-her         ###   ########.fr       */
+/*   Updated: 2025/10/13 03:51:31 by juan-her         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ int	ft_type(char c, va_list vars)
 		len = ft_write_hex(va_arg(vars, int));
 	else if (c == 'X')
 		len = ft_write_hex_c(va_arg(vars, int));
-	//else if (c == 'p')
-		//len = ft_write_hex_c(va_arg(vars, int));
+	else if (c == 'p')
+		len = ft_write_punt(va_arg(vars, int));
+	printf("%i\n", len);
 	return (len);
 }
 
@@ -40,12 +41,10 @@ int	ft_printf(char const *str, ...)
 	int		total;
 	int		i;
 	int		len;
-	char	*print;
 	va_list	vars;
 
 	va_start(vars, str);
 	len = ft_strlen(str) + 1;
-	print = malloc(len * sizeof(char));
 	i = 0;
 	total = 0;
 	while (str[i])
@@ -78,13 +77,18 @@ int	main(void)
 	int		num2;
 	int		base;
 	int		base1;
-
+	int cant;
+	int cant2;
+	
 	hola = "hola";
 	c = '\n';
 	num = -312454454;
 	num2 = -312454454;
 	base = 42;
 	base1 = 42;
-	ft_printf("esto es un \n%s \n%c \n%i \n%d \n%x \n%X", hola, c, num, num,
-		base, base);
+	cant = ft_printf("esto es un \n%s \n%c \n%i \n%d \n%x \n%X \n%% \n%p", hola, c, num, num,
+		base, base, &c);
+	/* cant2 = printf("esto es un \n%s \n%c \n%i \n%d \n%x \n%X \n%% \n%p", hola, c, num, num,
+		base, base, &c); */
+	ft_printf("\n%d   %i", cant, (int)cant2);
 }
