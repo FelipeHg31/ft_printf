@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*   ft_write_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juan-her <juan-her-@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: juan-her <juan-her@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/29 12:44:11 by juan-her          #+#    #+#             */
-/*   Updated: 2025/09/30 19:23:01 by juan-her         ###   ########.fr       */
+/*   Created: 2025/10/12 04:30:00 by juan-her          #+#    #+#             */
+/*   Updated: 2025/10/13 18:04:59 by juan-her         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_tolower(int c)
+int	ft_write_str(char *str)
 {
-	if (c > 64 && c < 91)
-		return (c + 32);
-	return (c);
+	write (1, str, ft_strlen(str));
+	return (ft_strlen(str));
+}
+
+int	ft_write_char(char c)
+{
+	write (1, &c, 1);
+	return (1);
 }

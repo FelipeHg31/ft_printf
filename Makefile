@@ -6,49 +6,41 @@
 #    By: juan-her <juan-her@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/12 03:56:02 by juan-her          #+#    #+#              #
-#    Updated: 2025/10/13 03:31:26 by juan-her         ###   ########.fr        #
+#    Updated: 2025/10/14 09:25:08 by juan-her         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 NAME = libftprintf.a
-LIBFT_URL = ./libft
-LIBFT = $(LIBFT_URL)/libft.a
 SRC_URL = ./src
 SRC = $(SRC_URL)/ft_printf.c $(SRC_URL)/ft_write_str.c \
 		$(SRC_URL)/ft_write_int.c $(SRC_URL)/ft_write_punt.c\
-		$(SRC_URL)/ft_write_hex.c
+		$(SRC_URL)/ft_write_hex.c $(SRC_URL)/ft_printf_utils.c
 OBJ_URL = ./obj
-OBJ = $(patsubst $(SRC_URL)/%.c,$(OBJ_URL)/%.o,$(SRC))
-INCLUDE = libft.h
+OBJ = $(SRC:$(SRC_URL)/%.c=$(OBJ_URL)/%.o)
+INCLUDE = ft_printf.h
 RM = rm -rf
 
-all: $(LIBFT) $(NAME)
+all: $(NAME)
 	@echo "Se ha creado la biblioteca."
-
-$(LIBFT):
-	$(MAKE) -C $(LIBFT_URL)
 
 $(NAME): $(OBJ)
 	@ar rcs $(NAME) $(OBJ)
-	@echo "Archivo $(NAME) creado."
+	@echo "Archivo $(NAME) y objetos creados."
 
 $(OBJ_URL):
 	@mkdir -p $(OBJ_URL)
 
 $(OBJ_URL)/%.o: $(SRC_URL)/%.c | $(OBJ_URL)
-	$(CC) $(CFLAGS) -c $< -o $@
-	@echo "Se han creado los objetos"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(MAKE) -C $(LIBFT_URL) clean
-	$(RM) $(OBJ_URL)
+	@$(RM) $(OBJ_URL)
 	@echo "Se han borrado los objetos."
 
 fclean: clean
-	$(MAKE) -C $(LIBFT_URL) fclean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 	@echo "Se han borrado las bibliotecas."
 
 re: fclean all

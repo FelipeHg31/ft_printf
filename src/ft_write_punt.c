@@ -6,46 +6,37 @@
 /*   By: juan-her <juan-her@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 03:25:52 by juan-her          #+#    #+#             */
-/*   Updated: 2025/10/13 03:30:45 by juan-her         ###   ########.fr       */
+/*   Updated: 2025/10/14 04:46:21 by juan-her         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	ft_change(uintptr_t n, char *base)
+static int	ft_putnbase(unsigned long n, char *base)
 {
-	uintptr_t		tmp;
-	char	        num;
+	int	count;
 
-	num = 0;
-	tmp = n / 16;
+	count = 0;
 	if (n >= 16)
-		ft_change(tmp, base);
-	num = base[n % 16];
-	write(1, &num, 1);
+		count += ft_putnbase(n / 16, base);
+	count += ft_write_char(base[n % 16]);
+	return (count);
 }
 
-static int	ft_counthex(int n)
+int	ft_write_punt(unsigned long n)
 {
-	int	i;
-
-	i = 0;
-	while (n >= 16)
-	{
-		n = n / 16;
-		i++;
-	}
-	return (i);
-}
-
-int	ft_write_punt(uintptr_t n)
-{
-	static char	hexa[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-			'a', 'b', 'c', 'd', 'e', 'f'};
 	int			len;
 
-	write(1, "Ox", 2);
-	ft_change(n, hexa);
-	len = 2 + ft_counthex(n);
+	len = 0;
+	if (n == 0)
+	{
+		write(1, "(nil)", 5);
+		return (5);
+	}
+	else
+	{
+		write(1, "0x", 2);
+		len = 2 + ft_putnbase(n, "0123456789abcdef");
+	}
 	return (len);
 }
