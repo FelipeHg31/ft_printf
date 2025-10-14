@@ -6,29 +6,18 @@
 /*   By: juan-her <juan-her@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 04:29:46 by juan-her          #+#    #+#             */
-/*   Updated: 2025/10/14 08:54:20 by juan-her         ###   ########.fr       */
+/*   Updated: 2025/10/14 09:44:09 by juan-her         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_type(char c, va_list vars)
+int	ft_type_base(char c, va_list vars)
 {
-	int		len;
-	char	*str;
+	int	len;
 
-	str = NULL;
 	len = 0;
-	if (c == 'c')
-		len = ft_write_char((char)va_arg(vars, int));
-	else if (c == 's')
-	{
-		str = va_arg(vars, char *);
-		if (str == NULL)
-			str = "(null)";
-		len = ft_write_str(str);
-	}
-	else if ((c == 'i') || (c == 'd'))
+	if ((c == 'i') || (c == 'd'))
 		len = ft_write_int(va_arg(vars, int));
 	else if (c == 'u')
 		len = ft_write_int_unsigned(va_arg(vars, unsigned int));
@@ -46,13 +35,54 @@ int	ft_type(char c, va_list vars)
 	return (len);
 }
 
+int	ft_type(char c, va_list vars)
+{
+	int		len;
+	char	*str;
+
+	str = NULL;
+	len = 0;
+	if (c == 'c')
+		len = ft_write_char((char)va_arg(vars, int));
+	else if (c == 's')
+	{
+		str = va_arg(vars, char *);
+		if (str == NULL)
+			str = "(null)";
+		len = ft_write_str(str);
+	}
+	else
+		len = ft_type_base(c, vars);
+	return (len);
+}
+
+int	ft_search(char const *str, int *i, int *j, va_list vars)
+{
+	int	total;
+	int	len;
+
+	*i = *i + 1;
+	total = 0;
+	if (str[*i] == '%')
+	{
+		write(1, "%%", 1);
+		*j = *j + 1;
+	}
+	else
+	{
+		len = ft_type(str[*i], vars);
+		if (len < 0)
+			return (0);
+		total = total + len;
+	}
+	return (total);
+}
 
 int	ft_printf(char const *str, ...)
 {
 	int		total;
 	int		i;
 	int		j;
-	int		len;
 	va_list	vars;
 
 	va_start(vars, str);
@@ -62,21 +92,7 @@ int	ft_printf(char const *str, ...)
 	while (str[i])
 	{
 		if (str[i] == '%')
-		{
-			i++;
-			if (str[i] == '%')
-			{
-				write(1, "%%", 1);
-				j++;
-			}
-			else
-			{
-				len = ft_type(str[i], vars);
-				if (len < 0)
-					return (0);
-				total = total + len;
-			}
-		}
+			total = total + ft_search(str, &i, &j, vars);
 		else
 		{
 			write(1, &str[i], 1);

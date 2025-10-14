@@ -6,7 +6,7 @@
 /*   By: juan-her <juan-her@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 17:10:23 by juan-her          #+#    #+#             */
-/*   Updated: 2025/10/14 05:08:15 by juan-her         ###   ########.fr       */
+/*   Updated: 2025/10/14 09:44:24 by juan-her         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		return (0);
 	while (i < n && s1[i] && s2[i])
 	{
-		if ((unsigned char) s1[i] != (unsigned char) s2[i])
-			return ((unsigned char) s1[i] - (unsigned char) s2[i]);
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		i++;
 	}
 	if (i == n)
 		return (0);
 	else
-		return ((unsigned char) s1[i] - (unsigned char) s2[i]);
+		return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
 void	ft_putnbr_fd(int n, int fd)
@@ -49,13 +49,13 @@ void	ft_putnbr_fd(int n, int fd)
 	nb = n;
 	if (nb < 0)
 	{
-		write (fd, "-", 1);
+		write(fd, "-", 1);
 		nb *= -1;
 	}
 	if (nb >= 0 && nb <= 9)
 	{
 		num = nb + '0';
-		write (fd, &num, 1);
+		write(fd, &num, 1);
 	}
 	if (nb > 9)
 	{
@@ -69,5 +69,3 @@ int	ft_putchar_fd(char c, int fd)
 	write(fd, &c, 1);
 	return (1);
 }
-
-
